@@ -11,7 +11,8 @@ from io import BytesIO
 app = Flask(__name__)
 
 # Load the pre-trained ResNet-50 model with updated weights
-model = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
+# model = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
+model = models.resnet50(weights=models.ResNet50_Weights.DEFAULT).to("cpu")
 model.eval()
 
 # Correct way to load ImageNet class labels
@@ -25,12 +26,32 @@ transform = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
 ])
 
+'''
 # Function to recognize product from an image (accepts image file object)
 def recognize_product_from_image(image):
     """Recognize product from image."""
     image = Image.open(image).convert("RGB")  # Ensure image is in RGB mode
     image = transform(image).unsqueeze(0)  # Transform image
 
+    with torch.no_grad():
+        outputs = model(image)  # Make prediction
+
+    _, predicted_idx = torch.max(outputs, 1)
+    product_name = LABELS[predicted_idx.item()]  # Get predicted class name
+
+    return product_name
+'''
+# Function to recognize product from an image (accepts image file object)
+def recognize_product_from_image(image):
+    """Recognize product from image with memory optimization."""
+    image = Image.open(image).convert("RGB")  # Ensure image is in RGB mode
+    image = transform(image).unsqueeze(0)  # Transform image
+
+    # Move model and image to CPU (to reduce memory usage)
+    model.to("cpu")
+    image = image.to("cpu")
+
+    # Disable gradient calculations to save memory
     with torch.no_grad():
         outputs = model(image)  # Make prediction
 
