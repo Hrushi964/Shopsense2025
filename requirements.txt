@@ -6,7 +6,7 @@ matplotlib
 statsmodels
 requests
 opencv-python
-torch
-torchvision
+torch==2.1.0+cpu
+torchvision==0.16.0+cpu
 langchain_community
 python-dotenv
