@@ -1,5 +1,10 @@
 flask
 gunicorn
-opencv-python
-requests
 numpy
+pandas
+matplotlib
+statsmodels
+requests
+opencv-python
+torch
+torchvision
