@@ -1,8 +1,10 @@
+import os
+os.environ["PYTORCH_MPS_HIGH_WATERMARK_RATIO"] = "0.0"  # Reduces memory usage for PyTorch
+os.environ["TORCH_HOME"] = "/opt/render/.cache/torch"  # Ensures correct PyTorch install
 import torch
 import torchvision.transforms as transforms
 from torchvision import models
 from PIL import Image
-import os
 from flask import Flask, render_template, request
 import requests
 from io import BytesIO
