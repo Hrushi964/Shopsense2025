@@ -8,3 +8,5 @@ requests
 opencv-python
 torch
 torchvision
+langchain_community
+python-dotenv
