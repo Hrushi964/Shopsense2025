@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopSense</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <style>
+        body {
+    
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color:rgb(154, 159, 213); 
+                background-size: cover; 
+                
+            
+        }
+        .navbar {
+            background-color: rgb(24, 139, 227);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            height: 40px;
+            margin-right: 0.5rem;
+        }
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .nav-links a {
+            color: white;
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        .search-section {
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 5rem auto; 
+            max-width: 600px;
+            border: 1px solid black;
+            border-radius: 15px; 
+            background-color: rgba(255, 255, 255, 0.8); 
+            height: auto; 
+        }
+        .search-bar {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid black;
+            border-radius: 10px; 
+            margin-bottom: 1rem; 
+        }
+        .button-container {
+            display: flex; 
+            justify-content: center; 
+            width: 110%; 
+        }
+        .search-button, .recommend-button {
+            padding: 0.5rem 1rem;
+            background-color: #68b3f1;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-right: 0.5rem; 
+        }
+        .search-button, .predict-button {
+            padding: 0.5rem 1rem;
+            background-color: #68b3f1;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-right: 0.5rem; 
+        }
+        .search-button:hover, .recommend-button:hover {
+            background-color: #219ecf;
+        }
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+        .product-card, .recommendation-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            width: calc(33.333% - 2rem);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            text-align: center;
+        }
+        .product-card:hover, .recommendation-card:hover {
+            transform: scale(1.05);
+        }
+        .product-card h3, .recommendation-card h3 {
+            margin-top: 0;
+        }
+        .price {
+            color: #e91e63;
+            font-weight: bold;
+        }
+        .platform {
+            color: #555;
+        }
+        .view-button 
+        {
+            padding: 0.5rem 1rem;
+            background-color: #68b3f1; 
+            color: white;
+            border: none;
+            border-radius: 5px; 
+            cursor: pointer;
+            text-decoration: none; 
+            display: inline-block; 
+        }
+        .view-button:hover {
+            background-color: #219ecf; 
+        }
+        .product-image, .recommendation-image {
+            width: 100%;
+            border-radius: 8px;
+            height: 200px;
+            object-fit: cover;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .product-image img, .recommendation-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .placeholder-logo {
+            width: 100px;
+            height: 100px;
+        }
+        .circle-icon {
+            width: 40px; 
+            height: 40px; 
+            border-radius: 50%; 
+            background-color: white; 
+            margin-right: 0.5rem; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .results-header {
+            text-align: center;
+            margin: 2rem 0; 
+        }
+        .view-price-container {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .price {
+            margin-right: 10px; 
+            font-weight: bold; 
+        }
+        .domain-name {
+            display: inline-block;
+            padding: 1rem;
+            background-color: #f0f0f0; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            color: #333; 
+            width: 100%; 
+            text-align: center; 
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo-container">
+            <div class="circle-icon">
+                <span>🔍</span> 
+            </div>
+            <span class="logo-text">ShopSense</span>
+        </div>
+        <div class="nav-links">
+            <a href="#">About us</a>
+            <a href="#">Deals</a>
+            <a href="#">Notifications</a>
+            <a href="#">Contact Us</a>
+        </div>
+    </nav>
+    
+
+    <section class="search-section">
+        <input type="text" name="product_name" id="search-input" placeholder="Search for products..." class="search-bar" required>
+        <div class="button-container">
+            <button type="submit" class="search-button">Search</button>
+            <form action="/recommend" method="POST">
+                <input type="hidden" name="product_name" value="{{ query }}">
+                <button type="submit" class="recommend-button">Get Recommendations</button>
+            </form>
+                
+                <form action="/predict" method="POST">
+                    <input type="hidden" name="product_name" value="{{ query }}">
+                    <button type="submit" class="predict-button">Predict Prices</button>
+                </form>
+        </div>
+    </section>
+    
+    <main>
+        <h1 class="results-header">Search Results for <span>{{ query }}</span></h1>
+        <div class="product-container">
+            {% for result in results %}
+            <div class="product-card">
+                <div class="product-image">
+                    {% if result.image_url %}
+                        <img src="{{ result.image_url }}" alt="{{ result.title }}">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='images/shoppingcard.webp') }}" alt="Default Image">
+                    {% endif %}
+                </div>
+                <h3>{{ result.title }}</h3>
+                <p class="platform">{{ result.platform }}</p>
+                <div class="view-price-container">
+                    <span class="price">{{ result.price }}</span>
+                    <a href="{{ result.url }}" class="view-button" target="_blank">View ></a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+    </main>
+</body>
+
+
+
+
+
+
+
+
+
+
+
+

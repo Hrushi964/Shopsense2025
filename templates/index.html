@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopSense</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color:rgb(154, 159, 213); 
+            background-size: cover; 
+        }
+        .navbar {
+            background-color: rgb(24, 139, 227);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .search-section {
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 0; 
+            max-width: 600px;
+            border: 1px solid black;
+            border-radius: 15px; 
+            background-color: rgba(255, 255, 255, 0.8); 
+            height: auto; 
+            margin-top: 1px;
+            margin-left: 400px; 
+        }
+        .search-bar {
+            width: 100%;
+            padding: 0.5rem;
+            align-items: center;
+            border: 1px solid black;
+            border-radius: 10px; 
+            margin-bottom: 1rem; 
+            
+        
+
+        }
+        .button-container {
+            display: flex; 
+            justify-content: center; 
+            width: 130%; 
+        }
+        .search-button{
+            padding: 50px 50px;
+            background-color: #007BFF; 
+            color: white;
+            border: none;
+            border-radius: 10px; 
+            cursor: pointer;
+            margin-right: 0.5rem; 
+            position: absolute;
+            right: 9;
+        }
+        .search-button:hover {
+            background-color: #219ecf;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .circle-icon {
+            width: 40px; 
+            height: 40px; 
+            border-radius: 50%; 
+            background-color: white; 
+            margin-right: 0.5rem; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo {
+            height: 40px;
+            margin-right: 0.5rem;
+        }
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .nav-links a {
+            color: white;
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .circle-icon {
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+        }
+        .nav-links a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        .search-section {
+            display: flex;
+            justify-content: center;
+            margin-top: 200px;
+        }
+        
+        .image-input {
+            padding: 10px;
+            margin-right: 50px;
+        }
+        .button-container {
+            display: flex;
+            align-items: center;
+        }
+        .search-button {
+            padding: 10px 20px ;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo-container">
+            <div class="circle-icon">
+               
+                <span>🔍</span> 
+            </div>
+            <span class="logo-text">ShopSense</span>
+        </div>
+        <div class="nav-links">
+            <a href="aboutus.html">About us</a>
+            <a href="#">Deals</a>
+            <a href="#">Notifications</a>
+            <a href="#">Contact Us</a>
+        </div>
+    </nav>
+
+    <section class="search-section">
+        <form action="/search" method="POST" enctype="multipart/form-data">
+            <input type="text" name="product_name" placeholder="Search for products..." class="search-bar" >
+            <input type="file" name="product_image" accept="image/*" class="image-input">
+            <button type="submit" class="search-button">Search</button>
+        </form>
+    </section>
+</body>
+</html>
