@@ -10,3 +10,4 @@ torchvision==0.16.0
 langchain_community
 python-dotenv
 waitress
+gunicorn
