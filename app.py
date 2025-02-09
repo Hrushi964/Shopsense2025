@@ -72,7 +72,7 @@ def predict():
                 price_range = (100, 5000)            
             
             data = {
-                'date': pd.date_range(start='2025-01-01', periods=100, freq='D'),
+                'date': pd.date_range(start='2025-01-01', periods=30, freq='D'),
                 'product_name': [product_name] * 100,
                 'price': np.random.uniform(price_range[0], price_range[1], 100)
             }
