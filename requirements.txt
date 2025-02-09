@@ -3,7 +3,7 @@ gunicorn
 numpy
 pandas
 matplotlib
-statsmodels
+statsmodels==0.13.5
 requests
 opencv-python
 torch==2.1.0
