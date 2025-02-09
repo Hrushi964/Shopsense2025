@@ -54,6 +54,7 @@ def search():
     else:
         return "No product name or image provided"
 
+'''
 @app.route('/predict', methods=['POST'])
 def predict():
         product_name = request.form.get('product_name', '')
@@ -149,6 +150,72 @@ def predict():
             plot_base64 = base64.b64encode(buf.read()).decode('utf-8')
         
             return plot_base64
+'''
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    product_name = request.form.get('product_name', '')
+
+    def generate_sample_data(product_name):
+        if 'apple' in product_name.lower() or "iphone" in product_name.lower():
+            price_range = (50000, 150000)
+        elif 'laptop' in product_name.lower():
+            price_range = (30000, 100000)
+        elif 'smartphone' in product_name.lower():
+            price_range = (10000, 80000)
+        elif 'tv' in product_name.lower():
+            price_range = (15000, 120000)
+        elif "electric fan" in product_name.lower() or "fan" in product_name.lower():
+            price_range = (1000, 5000)
+        else:
+            price_range = (100, 5000)
+
+        data = {
+            'date': pd.date_range(start='2025-01-01', periods=30, freq='D'),
+            'product_name': [product_name] * 30,
+            'price': np.random.uniform(price_range[0], price_range[1], 30)
+        }
+
+        return pd.DataFrame(data)
+
+    def predict_prices(product_name, days=7):
+        df = generate_sample_data(product_name)
+        df.set_index(pd.DatetimeIndex(df['date'], freq='D'), inplace=True)
+
+        # Use Simple Moving Average (SMA)
+        df['SMA'] = df['price'].rolling(window=3).mean()
+
+        # Forecasting by repeating the last SMA value
+        forecast = [df['SMA'].dropna().iloc[-1]] * days
+        forecast_dates = pd.date_range(start=df.index[-1] + pd.Timedelta(days=1), periods=days, freq='D')
+        forecast_df = pd.DataFrame({'price': forecast}, index=forecast_dates)
+
+        # Plotting results
+        plt.figure(figsize=(12, 6))
+        plt.plot(df.index[-7:], df['price'][-7:], label='Historical Prices', color='blue', marker='o')
+        plt.plot(forecast_df.index, forecast_df['price'], label='Predicted Prices (SMA)', color='red', linestyle='--', marker='o')
+
+        plt.title(f'Price Prediction for {product_name}')
+        plt.xlabel('Date')
+        plt.ylabel('Price')
+        plt.legend()
+        plt.grid(True)
+
+        buf = io.BytesIO()
+        plt.savefig(buf, format='png', bbox_inches='tight')
+        buf.seek(0)
+        plt.close()
+
+        plot_base64 = base64.b64encode(buf.read()).decode('utf-8')
+
+        return plot_base64
+
+    if product_name:
+        plot_base64 = predict_prices(product_name)
+        return render_template('predictresults.html', plot_base64=plot_base64, query=product_name)
+
+    return "No product name provided", 400
+
 
 @app.route('/recommend', methods=['POST'])
 
