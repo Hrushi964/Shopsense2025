@@ -81,43 +81,41 @@ def predict():
             
             return pd.DataFrame(data)
 
-        '''
-        def predict_prices(product_name, days=7):
-            df = generate_sample_data(product_name)
-            df.set_index(pd.DatetimeIndex(df['date'], freq='D'), inplace=True)
+        # def predict_prices(product_name, days=7):
+        #     df = generate_sample_data(product_name)
+        #     df.set_index(pd.DatetimeIndex(df['date'], freq='D'), inplace=True)
             
-            model = ARIMA(df['price'], order=(5, 1, 0))
-            model_fit = model.fit()
+        #     model = ARIMA(df['price'], order=(5, 1, 0))
+        #     model_fit = model.fit()
             
-            forecast = model_fit.forecast(steps=days)
+        #     forecast = model_fit.forecast(steps=days)
             
-            forecast_dates = pd.date_range(start=df.index[-1] + pd.Timedelta(days=1), periods=days, freq='D')
-            forecast_df = pd.DataFrame({'price': forecast}, index=forecast_dates)
+        #     forecast_dates = pd.date_range(start=df.index[-1] + pd.Timedelta(days=1), periods=days, freq='D')
+        #     forecast_df = pd.DataFrame({'price': forecast}, index=forecast_dates)
             
-            plt.figure(figsize=(12, 6))
-            plt.plot(df.index[-7:], df['price'][-7:], label='Historical Prices', color='blue', marker='o')
-            plt.plot(forecast_df.index, forecast_df['price'], label='Predicted Prices', color='red', linestyle='--', marker='o')
+        #     plt.figure(figsize=(12, 6))
+        #     plt.plot(df.index[-7:], df['price'][-7:], label='Historical Prices', color='blue', marker='o')
+        #     plt.plot(forecast_df.index, forecast_df['price'], label='Predicted Prices', color='red', linestyle='--', marker='o')
             
-            plt.title(f'Price Prediction for {product_name}')
-            plt.xlabel('Date')
-            plt.ylabel('Price')
-            plt.legend()
-            plt.grid(True)
+        #     plt.title(f'Price Prediction for {product_name}')
+        #     plt.xlabel('Date')
+        #     plt.ylabel('Price')
+        #     plt.legend()
+        #     plt.grid(True)
             
-            # Save plot to a bytes buffer
-            buf = io.BytesIO()
-            plt.savefig(buf, format='png', bbox_inches='tight')
-            buf.seek(0)
-            plt.close()
+        #     # Save plot to a bytes buffer
+        #     buf = io.BytesIO()
+        #     plt.savefig(buf, format='png', bbox_inches='tight')
+        #     buf.seek(0)
+        #     plt.close()
             
-            # Encode plot to base64 string
-            plot_base64 = base64.b64encode(buf.read()).decode('utf-8')
+        #     # Encode plot to base64 string
+        #     plot_base64 = base64.b64encode(buf.read()).decode('utf-8')
             
-            return plot_base64
-        if product_name:
-            plot_base64 = predict_prices(product_name)
-        return render_template('predictresults.html', plot_base64=plot_base64, query=product_name)
-        '''
+        #     return plot_base64
+        # if product_name:
+        #     plot_base64 = predict_prices(product_name)
+        # return render_template('predictresults.html', plot_base64=plot_base64, query=product_name)
 
         def predict_prices(product_name, days=7):
             df = generate_sample_data(product_name)
