@@ -1,5 +1,4 @@
 flask
-gunicorn
 numpy
 pandas
 matplotlib
@@ -10,3 +9,4 @@ torch==2.1.0
 torchvision==0.16.0
 langchain_community
 python-dotenv
+waitress
