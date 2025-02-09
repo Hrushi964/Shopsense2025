@@ -72,6 +72,7 @@ def predict():
                 price_range = (100, 5000)            
             
             data = {
+                # 'date': pd.date_range(start='2025-01-01', periods=100, freq='D'),
                 'date': pd.date_range(start='2025-01-01', periods=30, freq='D'),
                 'product_name': [product_name] * 100,
                 'price': np.random.uniform(price_range[0], price_range[1], 100)
@@ -79,6 +80,7 @@ def predict():
             
             return pd.DataFrame(data)
 
+        '''
         def predict_prices(product_name, days=7):
             df = generate_sample_data(product_name)
             df.set_index(pd.DatetimeIndex(df['date'], freq='D'), inplace=True)
@@ -114,8 +116,39 @@ def predict():
         if product_name:
             plot_base64 = predict_prices(product_name)
         return render_template('predictresults.html', plot_base64=plot_base64, query=product_name)
-        
+        '''
 
+        def predict_prices(product_name, days=7):
+            df = generate_sample_data(product_name)
+            df.set_index(pd.DatetimeIndex(df['date'], freq='D'), inplace=True)
+        
+            # Use a Simple Moving Average (SMA) instead of ARIMA
+            df['SMA'] = df['price'].rolling(window=3).mean()
+        
+            # Forecasting by repeating the last SMA value
+            forecast = [df['SMA'].dropna().iloc[-1]] * days
+            forecast_dates = pd.date_range(start=df.index[-1] + pd.Timedelta(days=1), periods=days, freq='D')
+            forecast_df = pd.DataFrame({'price': forecast}, index=forecast_dates)
+        
+            # Plotting the results
+            plt.figure(figsize=(12, 6))
+            plt.plot(df.index[-7:], df['price'][-7:], label='Historical Prices', color='blue', marker='o')
+            plt.plot(forecast_df.index, forecast_df['price'], label='Predicted Prices (SMA)', color='red', linestyle='--', marker='o')
+        
+            plt.title(f'Price Prediction for {product_name}')
+            plt.xlabel('Date')
+            plt.ylabel('Price')
+            plt.legend()
+            plt.grid(True)
+        
+            buf = io.BytesIO()
+            plt.savefig(buf, format='png', bbox_inches='tight')
+            buf.seek(0)
+            plt.close()
+        
+            plot_base64 = base64.b64encode(buf.read()).decode('utf-8')
+        
+            return plot_base64
 
 @app.route('/recommend', methods=['POST'])
 
