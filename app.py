@@ -39,7 +39,12 @@ def search():
         if image.filename == '':
             return "No selected file"
         
-        image_path = os.path.join('static', 'uploads', image.filename)
+        # Ensure the 'static/uploads' directory exists
+        upload_dir = os.path.join('static', 'uploads')
+        if not os.path.exists(upload_dir):
+            os.makedirs(upload_dir)
+        
+        image_path = os.path.join(upload_dir, image.filename)
         image.save(image_path)  # Save uploaded image
         
         recognised_product_name = recognize_product_from_image(image_path)
@@ -54,173 +59,76 @@ def search():
     else:
         return "No product name or image provided"
 
-'''
-@app.route('/predict', methods=['POST'])
-def predict():
-        product_name = request.form.get('product_name', '')
-        def generate_sample_data(product_name):
-            if 'apple' in product_name.lower() or "iphone" in product_name.lower():
-                price_range = (50000, 150000)
-            elif 'laptop' in product_name.lower():
-                price_range = (30000, 100000)
-            elif 'smartphone' in product_name.lower():
-                price_range = (10000, 80000)
-            elif 'tv' in product_name.lower():
-                price_range = (15000, 120000)
-            elif "electric fan" in product_name.lower() or "fan" in product_name.lower():
-                price_range = (1000, 5000)
-            else:
-                price_range = (100, 5000)            
-            
-            data = {
-                # 'date': pd.date_range(start='2025-01-01', periods=100, freq='D'),
-                'date': pd.date_range(start='2025-01-01', periods=30, freq='D'),
-                'product_name': [product_name] * 100,
-                'price': np.random.uniform(price_range[0], price_range[1], 100)
-            }
-            
-            return pd.DataFrame(data)
+def generate_sample_data(product_name):
+    if 'apple' in product_name.lower() or "iphone" in product_name.lower():
+        price_range = (50000, 150000)
+    elif 'laptop' in product_name.lower():
+        price_range = (30000, 100000)
+    elif 'smartphone' in product_name.lower():
+        price_range = (10000, 80000)
+    elif 'tv' in product_name.lower():
+        price_range = (15000, 120000)
+    elif "electric fan" in product_name.lower() or "fan" in product_name.lower():
+        price_range = (1000, 5000)
+    else:
+        price_range = (100, 5000)            
 
-        # def predict_prices(product_name, days=7):
-        #     df = generate_sample_data(product_name)
-        #     df.set_index(pd.DatetimeIndex(df['date'], freq='D'), inplace=True)
-            
-        #     model = ARIMA(df['price'], order=(5, 1, 0))
-        #     model_fit = model.fit()
-            
-        #     forecast = model_fit.forecast(steps=days)
-            
-        #     forecast_dates = pd.date_range(start=df.index[-1] + pd.Timedelta(days=1), periods=days, freq='D')
-        #     forecast_df = pd.DataFrame({'price': forecast}, index=forecast_dates)
-            
-        #     plt.figure(figsize=(12, 6))
-        #     plt.plot(df.index[-7:], df['price'][-7:], label='Historical Prices', color='blue', marker='o')
-        #     plt.plot(forecast_df.index, forecast_df['price'], label='Predicted Prices', color='red', linestyle='--', marker='o')
-            
-        #     plt.title(f'Price Prediction for {product_name}')
-        #     plt.xlabel('Date')
-        #     plt.ylabel('Price')
-        #     plt.legend()
-        #     plt.grid(True)
-            
-        #     # Save plot to a bytes buffer
-        #     buf = io.BytesIO()
-        #     plt.savefig(buf, format='png', bbox_inches='tight')
-        #     buf.seek(0)
-        #     plt.close()
-            
-        #     # Encode plot to base64 string
-        #     plot_base64 = base64.b64encode(buf.read()).decode('utf-8')
-            
-        #     return plot_base64
-        # if product_name:
-        #     plot_base64 = predict_prices(product_name)
-        # return render_template('predictresults.html', plot_base64=plot_base64, query=product_name)
+    data = {
+        'date': pd.date_range(start='2025-01-01', periods=100, freq='D'),
+        'product_name': [product_name] * 100,
+        'price': np.random.uniform(price_range[0], price_range[1], 100)
+    }
 
-        def predict_prices(product_name, days=7):
-            df = generate_sample_data(product_name)
-            df.set_index(pd.DatetimeIndex(df['date'], freq='D'), inplace=True)
-        
-            # Use a Simple Moving Average (SMA) instead of ARIMA
-            df['SMA'] = df['price'].rolling(window=3).mean()
-        
-            # Forecasting by repeating the last SMA value
-            forecast = [df['SMA'].dropna().iloc[-1]] * days
-            forecast_dates = pd.date_range(start=df.index[-1] + pd.Timedelta(days=1), periods=days, freq='D')
-            forecast_df = pd.DataFrame({'price': forecast}, index=forecast_dates)
-        
-            # Plotting the results
-            plt.figure(figsize=(12, 6))
-            plt.plot(df.index[-7:], df['price'][-7:], label='Historical Prices', color='blue', marker='o')
-            plt.plot(forecast_df.index, forecast_df['price'], label='Predicted Prices (SMA)', color='red', linestyle='--', marker='o')
-        
-            plt.title(f'Price Prediction for {product_name}')
-            plt.xlabel('Date')
-            plt.ylabel('Price')
-            plt.legend()
-            plt.grid(True)
-        
-            buf = io.BytesIO()
-            plt.savefig(buf, format='png', bbox_inches='tight')
-            buf.seek(0)
-            plt.close()
-        
-            plot_base64 = base64.b64encode(buf.read()).decode('utf-8')
-        
-            return plot_base64
-'''
+    return pd.DataFrame(data)
 
 @app.route('/predict', methods=['POST'])
-def predict():
+def predict_prices():
     product_name = request.form.get('product_name', '')
+    df = generate_sample_data(product_name)
+    df.set_index(pd.DatetimeIndex(df['date'], freq='D'), inplace=True)
 
-    def generate_sample_data(product_name):
-        if 'apple' in product_name.lower() or "iphone" in product_name.lower():
-            price_range = (50000, 150000)
-        elif 'laptop' in product_name.lower():
-            price_range = (30000, 100000)
-        elif 'smartphone' in product_name.lower():
-            price_range = (10000, 80000)
-        elif 'tv' in product_name.lower():
-            price_range = (15000, 120000)
-        elif "electric fan" in product_name.lower() or "fan" in product_name.lower():
-            price_range = (1000, 5000)
-        else:
-            price_range = (100, 5000)
+    model = ARIMA(df['price'], order=(5, 1, 0))
+    model_fit = model.fit()
 
-        data = {
-            'date': pd.date_range(start='2025-01-01', periods=30, freq='D'),
-            'product_name': [product_name] * 30,
-            'price': np.random.uniform(price_range[0], price_range[1], 30)
-        }
+    forecast = model_fit.forecast(steps=7)
 
-        return pd.DataFrame(data)
+    forecast_dates = pd.date_range(start=df.index[-1] + pd.Timedelta(days=1), periods=7, freq='D')
+    forecast_df = pd.DataFrame({'price': forecast}, index=forecast_dates)
 
-    def predict_prices(product_name, days=7):
-        df = generate_sample_data(product_name)
-        df.set_index(pd.DatetimeIndex(df['date'], freq='D'), inplace=True)
+    plt.figure(figsize=(12, 6))
+    
+    # Plot historical prices
+    plt.plot(df.index[-30:], df['price'][-30:], label='Historical Prices', color='blue', marker='o')
+    
+    # Plot predicted prices
+    plt.plot(forecast_df.index, forecast_df['price'], label='Predicted Prices', color='red', linestyle='--', marker='o')
+    
+    # Additional visualizations
+    plt.fill_between(forecast_df.index, forecast_df['price'] - forecast_df['price'].std(), 
+                     forecast_df['price'] + forecast_df['price'].std(), color='red', alpha=0.2)
+    
+    plt.title(f'Price Prediction for {product_name}')
+    plt.xlabel('Date')
+    plt.ylabel('Price')
+    plt.legend()
+    plt.grid(True)
 
-        # Use Simple Moving Average (SMA)
-        df['SMA'] = df['price'].rolling(window=3).mean()
+    # Save plot to a bytes buffer
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight')
+    buf.seek(0)
+    plt.close()
 
-        # Forecasting by repeating the last SMA value
-        forecast = [df['SMA'].dropna().iloc[-1]] * days
-        forecast_dates = pd.date_range(start=df.index[-1] + pd.Timedelta(days=1), periods=days, freq='D')
-        forecast_df = pd.DataFrame({'price': forecast}, index=forecast_dates)
+    # Encode plot to base64 string
+    plot_base64 = base64.b64encode(buf.read()).decode('utf-8')
 
-        # Plotting results
-        plt.figure(figsize=(12, 6))
-        plt.plot(df.index[-7:], df['price'][-7:], label='Historical Prices', color='blue', marker='o')
-        plt.plot(forecast_df.index, forecast_df['price'], label='Predicted Prices (SMA)', color='red', linestyle='--', marker='o')
-
-        plt.title(f'Price Prediction for {product_name}')
-        plt.xlabel('Date')
-        plt.ylabel('Price')
-        plt.legend()
-        plt.grid(True)
-
-        buf = io.BytesIO()
-        plt.savefig(buf, format='png', bbox_inches='tight')
-        buf.seek(0)
-        plt.close()
-
-        plot_base64 = base64.b64encode(buf.read()).decode('utf-8')
-
-        return plot_base64
-
-    if product_name:
-        plot_base64 = predict_prices(product_name)
-        return render_template('predictresults.html', plot_base64=plot_base64, query=product_name)
-
-    return "No product name provided", 400
-
+    return render_template('predictresults.html', plot_base64=plot_base64, query=product_name)
 
 @app.route('/recommend', methods=['POST'])
-
 def recommend():
     product_name = request.form.get('product_name', '')
-    variants,links=generate_product_variants(product_name)
-    return render_template('recommendations.html', variants=variants,links=links, query=product_name)
+    variants, links = generate_product_variants(product_name)
+    return render_template('recommendations.html', variants=variants, links=links, query=product_name)
 
 if __name__ == '__main__':
     app.run(debug=True)

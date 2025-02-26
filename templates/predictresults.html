@@ -6,53 +6,129 @@
     <title>Predicted Prices</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
+            background-color:rgb(154, 159, 213); 
+            background-size: cover; 
+        }
+        .navbar {
+            background-color: rgb(24, 139, 227);
+            color: white;
+            padding: 1rem;
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
         }
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .container {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            max-width: 800px;
-            width: 100%;
-            text-align: center;
-        }
-        .graph-container {
-            margin-top: 20px;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-        }
-        .back-button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-        }
-        .back-button:hover {
-            background-color: #0056b3;
-        }
+            
+            .logo-container {
+                display: flex;
+                align-items: center;
+            }
+            .circle-icon {
+                width: 40px; 
+                height: 40px; 
+                border-radius: 50%; 
+                background-color: white; 
+                margin-right: 0.5rem; 
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .logo {
+                height: 40px;
+                margin-right: 0.5rem;
+            }
+            .logo-text {
+                font-size: 1.5rem;
+                font-weight: bold;
+            }
+            .nav-links a {
+                color: white;
+                margin: 0 1rem;
+                text-decoration: none;
+            }
+            .nav-links a:hover {
+                text-decoration: underline;
+            }
+            .navbar {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px;
+                background-color: #333;
+                color: white;
+            }
+            .logo-container {
+                display: flex;
+                align-items: center;
+            }
+            .circle-icon {
+                width: 40px;
+                height: 40px;
+                background-color: white;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-right: 10px;
+            }
+            .nav-links a {
+                color: white;
+                margin: 0 10px;
+                text-decoration: none;
+            }
+            .search-section {
+                display: flex;
+                justify-content: center;
+                margin-top: 200px;
+            }
+            
+            .image-input {
+                padding: 10px;
+                margin-right: 50px;
+            }
+            .button-container {
+                display: flex;
+                align-items: center;
+            }
+            .search-button {
+                padding: 10px 20px ;
+                background-color: #333;
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+            .container {
+                text-align: center;
+                margin-top: 50px;
+            }
+            .graph-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+            }
+        
     </style>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="logo-container">
+            <div class="circle-icon">
+               
+                <span>🔍</span> 
+            </div>
+            <span class="logo-text">ShopSense</span>
+        </div>
+        <div class="nav-links">
+            <a href="aboutus.html">About us</a>
+            <a href="#">Deals</a>
+            <a href="#">Notifications</a>
+            <a href="#">Contact Us</a>
+        </div>
+    </nav>
+
     <div class="container">
         <h1>Predicted Prices for "{{ query }}"</h1>
         <div class="graph-container">

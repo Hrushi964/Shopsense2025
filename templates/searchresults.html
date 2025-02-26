@@ -230,11 +230,9 @@
             {% for result in results %}
             <div class="product-card">
                 <div class="product-image">
-                    {% if result.image_url %}
-                        <img src="{{ result.image_url }}" alt="{{ result.title }}">
-                    {% else %}
-                        <img src="{{ url_for('static', filename='images/shoppingcard.webp') }}" alt="Default Image">
-                    {% endif %}
+                    
+                        <img src="{{ url_for('static', filename='images/Check me out.png') }}" alt="{{ result.title }}">
+                    
                 </div>
                 <h3>{{ result.title }}</h3>
                 <p class="platform">{{ result.platform }}</p>
