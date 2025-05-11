@@ -64,7 +64,7 @@
             padding: 0.5rem;
             border: 1px solid black;
             border-radius: 10px; 
-            margin-bottom: 1rem; 
+            margin-bottom: 0.5rem; 
         }
         .button-container {
             display: flex; 
@@ -95,7 +95,7 @@
         .product-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 2rem;
+            gap: 3rem;
             justify-content: center;
         }
         .product-card, .recommendation-card {
@@ -121,6 +121,13 @@
         .platform {
             color: #555;
         }
+        .view-price-container {
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            width: 100%;
+            margin-top: 10px;
+        }
         .view-button 
         {
             padding: 0.5rem 1rem;
@@ -130,7 +137,9 @@
             border-radius: 5px; 
             cursor: pointer;
             text-decoration: none; 
-            display: inline-block; 
+            display: inline-block;
+            min-width: 120px;
+            text-align: center;
         }
         .view-button:hover {
             background-color: #219ecf; 
@@ -171,8 +180,10 @@
         }
         .view-price-container {
             display: flex; 
-            justify-content: space-between; 
+            justify-content: center; 
             align-items: center; 
+            width: 100%;
+            margin-top: 7px;
         }
         .price {
             margin-right: 10px; 
@@ -211,7 +222,7 @@
     <section class="search-section">
         <input type="text" name="product_name" id="search-input" placeholder="Search for products..." class="search-bar" required>
         <div class="button-container">
-            <button type="submit" class="search-button">Search</button>
+            
             <form action="/recommend" method="POST">
                 <input type="hidden" name="product_name" value="{{ query }}">
                 <button type="submit" class="recommend-button">Get Recommendations</button>
@@ -225,25 +236,46 @@
     </section>
     
     <main>
-        <h1 class="results-header">Search Results for <span>{{ query }}</span></h1>
-        <div class="product-container">
-            {% for result in results %}
-            <div class="product-card">
-                <div class="product-image">
-                    
-                        <img src="{{ url_for('static', filename='images/Check me out.png') }}" alt="{{ result.title }}">
-                    
+        <div class="search-results-container">
+            <h1 style="text-align: center;">Search Results for {{ query }}</h1>
+            
+            {% if error %}
+                <div class="error-message">
+                    {{ error }}
                 </div>
-                <h3>{{ result.title }}</h3>
-                <p class="platform">{{ result.platform }}</p>
-                <div class="view-price-container">
-                    <span class="price">{{ result.price }}</span>
-                    <a href="{{ result.url }}" class="view-button" target="_blank">View ></a>
-                </div>
+            {% endif %}
+            
+            <div class="product-container">
+                {% if results %}
+                    {% for result in results %}
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="{{ url_for('static', filename='images/PC Img.png') }}" alt="Product Image">
+                            </div>
+                            <h3>{{ result.title }}</h3>
+                            <p class="snippet">{{ result.snippet }}</p>
+                            {% set url = result.url %}
+                            {% if 'amazon.in' in url %}
+                                {% set domain = 'Amazon' %}
+                            {% elif 'flipkart.com' in url %}
+                                {% set domain = 'Flipkart' %}
+                            {% elif 'reliancedigital.in' in url %}
+                                {% set domain = 'Reliance Digital' %}
+                            {% else %}
+                                {% set domain = 'Store' %}
+                            {% endif %}
+                            <div class="view-price-container">
+                                <a href="{{ url }}" class="view-button" target="_blank">View on {{ domain }}</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% if not error %}
+                        <p class="no-results">No results found. Please try a different search term.</p>
+                    {% endif %}
+                {% endif %}
             </div>
-            {% endfor %}
         </div>
-        
     </main>
 </body>
 

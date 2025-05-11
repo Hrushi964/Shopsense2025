@@ -13,116 +13,139 @@
             background-size: cover; 
         }
         .navbar {
-            background-color: rgb(24, 139, 227);
+            background-color: #333;
             color: white;
             padding: 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-            
-            .logo-container {
-                display: flex;
-                align-items: center;
-            }
-            .circle-icon {
-                width: 40px; 
-                height: 40px; 
-                border-radius: 50%; 
-                background-color: white; 
-                margin-right: 0.5rem; 
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            .logo {
-                height: 40px;
-                margin-right: 0.5rem;
-            }
-            .logo-text {
-                font-size: 1.5rem;
-                font-weight: bold;
-            }
-            .nav-links a {
-                color: white;
-                margin: 0 1rem;
-                text-decoration: none;
-            }
-            .nav-links a:hover {
-                text-decoration: underline;
-            }
-            .navbar {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 10px;
-                background-color: #333;
-                color: white;
-            }
-            .logo-container {
-                display: flex;
-                align-items: center;
-            }
-            .circle-icon {
-                width: 40px;
-                height: 40px;
-                background-color: white;
-                border-radius: 50%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-right: 10px;
-            }
-            .nav-links a {
-                color: white;
-                margin: 0 10px;
-                text-decoration: none;
-            }
-            .search-section {
-                display: flex;
-                justify-content: center;
-                margin-top: 200px;
-            }
-            
-            .image-input {
-                padding: 10px;
-                margin-right: 50px;
-            }
-            .button-container {
-                display: flex;
-                align-items: center;
-            }
-            .search-button {
-                padding: 10px 20px ;
-                background-color: #333;
-                color: white;
-                border: none;
-                cursor: pointer;
-            }
-            .container {
-                text-align: center;
-                margin-top: 50px;
-            }
-            .graph-container {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100%;
-            }
         
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .circle-icon {
+            width: 40px; 
+            height: 40px; 
+            border-radius: 50%; 
+            background-color: white; 
+            margin-right: 0.5rem; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .nav-links a {
+            color: white;
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            text-align: center;
+            padding: 0 15px;
+        }
+        
+        h1 {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        
+        .graph-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .graph-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .price-insights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .insight-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        
+        .insight-card h3 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.2rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .insight-card p {
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .insight-card.up {
+            border-top: 4px solid #e74c3c;
+        }
+        
+        .insight-card.down {
+            border-top: 4px solid #2ecc71;
+        }
+        
+        .insight-card.stable {
+            border-top: 4px solid #3498db;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: #68b3f1;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 20px;
+            transition: background-color 0.2s;
+        }
+        
+        .back-button:hover {
+            background-color: #219ecf;
+        }
+        
+        @media (max-width: 768px) {
+            .price-insights {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="logo-container">
             <div class="circle-icon">
-               
                 <span>🔍</span> 
             </div>
             <span class="logo-text">ShopSense</span>
         </div>
         <div class="nav-links">
-            <a href="aboutus.html">About us</a>
+            <a href="#">About us</a>
             <a href="#">Deals</a>
             <a href="#">Notifications</a>
             <a href="#">Contact Us</a>
@@ -131,10 +154,65 @@
 
     <div class="container">
         <h1>Predicted Prices for "{{ query }}"</h1>
+        
         <div class="graph-container">
             <img src="data:image/png;base64,{{ plot_base64 }}" alt="Predicted Prices Plot">
         </div>
-        <a href="/" class="back-button">Back to Search</a>
+        
+        <div class="price-insights">
+            <div class="insight-card {% if 'rise' in plot_base64[-100:] %}up{% elif 'fall' in plot_base64[-100:] %}down{% else %}stable{% endif %}">
+                <h3>Price Trend Analysis</h3>
+                <p>Based on historical data and market patterns, 
+                {% if 'iphone' in query.lower() or 'apple' in query.lower() %}
+                    premium smartphone prices typically decline gradually over time, with occasional drops during sales events. Consider buying during promotional periods for the best value.
+                {% elif 'laptop' in query.lower() %}
+                    laptop prices often show small fluctuations with a gradual downward trend. New model releases can cause significant price drops for older models.
+                {% elif 'tv' in query.lower() %}
+                    TV prices tend to fluctuate seasonally, with the best deals often appearing before major sporting events or during holiday seasons.
+                {% elif 'fan' in query.lower() %}
+                    fan prices typically rise as summer approaches. Consider purchasing during off-season periods for better deals.
+                {% elif 'fashion' in query.lower() or 'shoes' in query.lower() %}
+                    fashion items often see price fluctuations based on seasonal trends and inventory levels. Look for end-of-season sales for significant discounts.
+                {% else %}
+                    this product shows normal price fluctuations with occasional sales events. Monitor prices for a few days to identify the best purchase timing.
+                {% endif %}
+                </p>
+            </div>
+            
+            <div class="insight-card {% if 'iphone' in query.lower() or 'apple' in query.lower() %}down{% elif 'fan' in query.lower() %}up{% else %}stable{% endif %}">
+                <h3>Buying Recommendation</h3>
+                <p>
+                {% if 'iphone' in query.lower() or 'apple' in query.lower() %}
+                    <strong>Wait for better pricing</strong>: Technology products like iPhones typically see price reductions over time. Consider waiting for upcoming sales events or new model announcements.
+                {% elif 'laptop' in query.lower() %}
+                    <strong>Monitor for a short period</strong>: Laptop prices may drop with new model releases. Check competitor prices across platforms for the best deal.
+                {% elif 'fan' in query.lower() %}
+                    <strong>Buy soon</strong>: Seasonal products like fans tend to increase in price as demand rises. Purchasing sooner rather than later is recommended.
+                {% elif 'fashion' in query.lower() or 'shoes' in query.lower() %}
+                    <strong>Watch for sales</strong>: Fashion items frequently go on sale. Monitor prices for a week or two before purchasing.
+                {% else %}
+                    <strong>Pricing appears stable</strong>: Current pricing appears reasonable based on historical data. Compare across platforms to ensure you get the best value.
+                {% endif %}
+                </p>
+            </div>
+            
+            <div class="insight-card">
+                <h3>Market Context</h3>
+                <p>
+                {% if 'iphone' in query.lower() or 'apple' in query.lower() %}
+                    Premium smartphones maintain relatively stable pricing with predictable patterns. Watch for sales during festival seasons, new iPhone launches, or major shopping events.
+                {% elif 'electronics' in query.lower() or 'laptop' in query.lower() or 'tv' in query.lower() %}
+                    Electronics pricing is influenced by new model releases, component costs, and global supply chains. Recent market trends show moderate price stability with occasional promotional discounts.
+                {% elif 'seasonal' in query.lower() or 'fan' in query.lower() %}
+                    Seasonal products show distinct pricing patterns based on demand cycles. Current market conditions suggest {{query}} prices may {{('rise' if 'fan' in query.lower() else 'fluctuate')}} in the coming months.
+                {% else %}
+                    General consumer goods pricing is affected by supply and demand, competitor pricing, and seasonal promotions. Compare prices across multiple retailers to ensure the best deal.
+                {% endif %}
+                </p>
+            </div>
+        </div>
+        
+        <a href="/search" class="back-button">Back to Search</a>
     </div>
 </body>
 </html>

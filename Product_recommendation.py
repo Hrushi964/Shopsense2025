@@ -5,7 +5,7 @@ def generate_product_variants(product_name):
     # Common suffixes for various product types
     suffixes = {
         "phone": [
-            "", "Pro", "Pro Max", "Max", "Mini", "Plus", "SE", "Ultra", "5G", "Lite", "X", "XL", "Neo", "S", "A", "Z", "Classic"
+             "Pro", "Pro Max", "Max", "Mini", "Plus", "SE", "Ultra", "5G", "Lite","4G"
         ],
         "tv": [
             "Smart", "LED", "OLED", "QLED", "UHD", "4K", "8K", "HDR", "Slim", "Ultra HD", "Full HD", "Curved", "Flat"
@@ -17,7 +17,7 @@ def generate_product_variants(product_name):
             "Wireless", "Bluetooth", "Wired", "Charging", "Case", "Sleeve", "Stand", "Keyboard", "Mouse", "Cable", "Docking"
         ],
         "general": [
-            "Basic", "Standard", "Advanced", "Deluxe", "Elite", "Edition", "Special", "Premium", "Limited", "New", "2023", "2024"
+            "Basic", "Standard", "Advanced","Special Edition", "Premium", "Limited", "New", "2023", "2024","2022"
         ]
     }
     
@@ -50,22 +50,4 @@ def generate_product_variants(product_name):
     
     return unique_variants, product_links
 
-# Main function to process input and generate variants with links
-'''
-def main(product_name):
-    try:
-        # Generate variants and links for the given product
-        variants, links = generate_product_variants(product_name)
-
-        # Output the variants and their respective links
-        for variant, link in zip(variants, links):
-            print(f"Variant: {variant}\nLink: {link}\n")
-
-    except Exception as e:
-        print(f"Error: {e}")
-
-# Run the script with an example product name
-if __name__ == "__main__":
-    product_name = input("enter product")  # Example input
-    main(product_name)
-    '''
+# Main function to process input and generate variants with lin
